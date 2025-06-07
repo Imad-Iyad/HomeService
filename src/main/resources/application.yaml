@@ -1,0 +1,17 @@
+server:
+  port: '8090'
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/home_service?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  h2 :
+    console:
+      enabled: 'true'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  application:
+    name: HomeService
