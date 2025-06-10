@@ -21,7 +21,7 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    private User Customer;
+    private User customer;
 
     @ManyToOne
     private User provider;
