@@ -35,12 +35,26 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Service updateService(Long id, Service service) {
-        return null;
+    public Service updateService(Long id, ServiceReqDTO service) {
+        Service ServiceEntity = serviceMapper.toEntity(service);
+        Optional<Service> optionalServiceEntity = serviceRepository.findById(id);
+        if (optionalServiceEntity.isPresent()) {
+            optionalServiceEntity.get().setName(service.getName());
+            optionalServiceEntity.get().setDescription(service.getDescription());
+            optionalServiceEntity.get().setCategory(service.getCategory());
+            return serviceRepository.save(optionalServiceEntity.get());
+        }else {
+            return null;
+        }
     }
 
     @Override
-    public void deleteService(Long id) {
-
+    public String deleteService(Long id) {
+        Optional<Service> optionalServiceEntity = serviceRepository.findById(id);
+        if (optionalServiceEntity.isPresent()) {
+            serviceRepository.delete(optionalServiceEntity.get());
+            return optionalServiceEntity.get().getName() + "Deleted";
+        }
+        return "Service not found";
     }
 }

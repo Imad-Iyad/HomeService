@@ -10,6 +10,6 @@ public interface ServiceService {
     List<Service> getAllServices();
     Service getServiceById(Long id);
     ServiceResDTO createService(ServiceReqDTO service);
-    Service updateService(Long id, Service service);
-    void deleteService(Long id);
+    Service updateService(Long id, ServiceReqDTO service);
+    String deleteService(Long id);
 }
