@@ -53,7 +53,7 @@ public class ServiceServiceImpl implements ServiceService {
         Optional<Service> optionalServiceEntity = serviceRepository.findById(id);
         if (optionalServiceEntity.isPresent()) {
             serviceRepository.delete(optionalServiceEntity.get());
-            return optionalServiceEntity.get().getName() + "Deleted";
+            return optionalServiceEntity.get().getName() + " Deleted";
         }
         return "Service not found";
     }

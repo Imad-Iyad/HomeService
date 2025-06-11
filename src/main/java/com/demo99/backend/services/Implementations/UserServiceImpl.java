@@ -1,7 +1,9 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.model.dto.UserReqDTO;
 import com.demo99.backend.model.entities.Enums.Role;
 import com.demo99.backend.model.entities.User;
+import com.demo99.backend.model.mapper.Impl.UserMapper;
 import com.demo99.backend.repositories.UserRepository;
 import com.demo99.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public Optional<User> getUserById (Long id){
@@ -27,7 +30,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String UpdateUser(Long id, User user) {
+    public String UpdateUser(Long id, UserReqDTO userDto) {
+        User user = userMapper.toEntity(userDto);
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             optionalUser.get().setName(user.getName());
