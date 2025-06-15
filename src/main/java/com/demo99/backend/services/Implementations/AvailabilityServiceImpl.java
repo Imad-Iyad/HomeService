@@ -43,6 +43,9 @@ public class AvailabilityServiceImpl {
     }
 
     public void deleteAvailability(Long id){
-        availabilityRepository.deleteById(id);
+        Optional<Availability> availabilityOptional = availabilityRepository.findById(id);
+        if (availabilityOptional.isPresent()){
+            availabilityRepository.deleteById(id);
+        }
     }
 }
