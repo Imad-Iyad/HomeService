@@ -1,5 +1,6 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.exceptions.ResourceNotFoundException;
 import com.demo99.backend.model.dto.ServiceReqDTO;
 import com.demo99.backend.model.dto.ServiceResDTO;
 import com.demo99.backend.model.entities.Service;
@@ -37,16 +38,16 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public Service updateService(Long id, ServiceReqDTO service) {
+    public ServiceResDTO updateService(Long id, ServiceReqDTO service) {
         Service ServiceEntity = serviceMapper.toEntity(service);
         Optional<Service> optionalServiceEntity = serviceRepository.findById(id);
         if (optionalServiceEntity.isPresent()) {
             optionalServiceEntity.get().setName(service.getName());
             optionalServiceEntity.get().setDescription(service.getDescription());
             optionalServiceEntity.get().setCategory(service.getCategory());
-            return serviceRepository.save(optionalServiceEntity.get());
+            return this.serviceMapper.toDTO(serviceRepository.save(optionalServiceEntity.get()));
         }else {
-            return null;
+            throw new ResourceNotFoundException("Service not found");
         }
     }
 
@@ -56,7 +57,8 @@ public class ServiceServiceImpl implements ServiceService {
         if (optionalServiceEntity.isPresent()) {
             serviceRepository.delete(optionalServiceEntity.get());
             return optionalServiceEntity.get().getName() + " Deleted";
+        }else {
+            throw new ResourceNotFoundException("Service not found");
         }
-        return "Service not found";
     }
 }

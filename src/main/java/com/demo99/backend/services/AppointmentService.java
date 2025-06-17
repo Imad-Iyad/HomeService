@@ -11,5 +11,5 @@ public interface AppointmentService {
     AppointmentResDTO bookAppointment(AppointmentReqDTO appointment);
     List<Appointment> getAppointmentsByCustomer(Long id);
     List<Appointment> getAppointmentsByProvider(Long providerId);
-    Appointment updateStatus(Long appointmentId, AppointmentStatus status);
+    AppointmentResDTO updateStatus(Long appointmentId, AppointmentStatus status);
 }

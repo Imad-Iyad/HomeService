@@ -1,5 +1,6 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.exceptions.ResourceNotFoundException;
 import com.demo99.backend.model.dto.AppointmentReqDTO;
 import com.demo99.backend.model.dto.AppointmentResDTO;
 import com.demo99.backend.model.entities.Appointment;
@@ -34,7 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (entity.isPresent()) {
             return this.appointmentRepository.findByCustomerId(customerId);
         }else{
-            return null;
+            throw new ResourceNotFoundException("Customer not found");
         }
     }
 
@@ -44,18 +45,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (entity.isPresent()) {
             return this.appointmentRepository.findByProviderId(providerId);
         }else{
-            return null;
+            throw new ResourceNotFoundException("Provider not found");
         }
     }
 
     @Override
-    public Appointment updateStatus(Long appointmentId, AppointmentStatus status) {
+    public AppointmentResDTO updateStatus(Long appointmentId, AppointmentStatus status) {
         Optional<Appointment> entity = this.appointmentRepository.findById(appointmentId);
         if (entity.isPresent()) {
             entity.get().setStatus(status);
-            return this.appointmentRepository.save(entity.get());
+            return this.appointmentMapper.toDTO(this.appointmentRepository.save(entity.get()));
         }else {
-            return null;
+            throw new ResourceNotFoundException("Appointment not found");
         }
     }
 

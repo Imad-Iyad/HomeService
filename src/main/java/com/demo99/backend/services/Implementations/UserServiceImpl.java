@@ -1,7 +1,7 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.exceptions.ResourceNotFoundException;
 import com.demo99.backend.model.dto.UserReqDTO;
-import com.demo99.backend.model.entities.Enums.Role;
 import com.demo99.backend.model.entities.User;
 import com.demo99.backend.model.mapper.Impl.UserMapper;
 import com.demo99.backend.repositories.UserRepository;
@@ -37,11 +37,11 @@ public class UserServiceImpl implements UserService {
             optionalUser.get().setName(user.getName());
             optionalUser.get().setEmail(user.getEmail());
             optionalUser.get().setPassword(user.getPassword());
-            optionalUser.get().setRole(Role.CUSTOMER);
+            optionalUser.get().setRole(user.getRole());
             userRepository.save(optionalUser.get());
             return "User updated successfully";
         }else  {
-            return "User not found";
+            throw new ResourceNotFoundException("User not found");
         }
     }
 
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(optionalUser.get());
             return "User deleted successfully";
         } else {
-            return "User not found";
+            throw new ResourceNotFoundException("User not found");
         }
     }
 

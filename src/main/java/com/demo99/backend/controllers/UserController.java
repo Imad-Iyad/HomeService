@@ -11,26 +11,26 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/v1/users")
+@RequestMapping(path = "/api/v1/users")
 public class UserController {
     private final UserService userService;
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/{id}")
     public Optional<User> getUserById (@PathVariable Long id){
         return this.userService.getUserById(id);
     }
 
-    @GetMapping(path = "/user")
+    @GetMapping
     public List<User> getAllProviders(){
         return this.userService.getAllProviders();
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     public String updateUser(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
         return this.userService.UpdateUser(id, userReqDTO);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id){
         return this.userService.deleteUser(id);
     }

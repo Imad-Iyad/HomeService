@@ -1,5 +1,6 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.exceptions.ResourceNotFoundException;
 import com.demo99.backend.model.dto.ReviewReqDTO;
 import com.demo99.backend.model.dto.ReviewResDTO;
 import com.demo99.backend.model.entities.Review;
@@ -27,7 +28,12 @@ public class ReviewServiceImpl {
 
     public List<ReviewResDTO> getReviewsByProvider(Long providerId){
         Optional<User> potUser = this.userRepository.findById(providerId);
-        List<Review> review = reviewRepository.findByProviderId(providerId);
-        return this.reviewMapper.toListDto(review);
+        if (potUser.isPresent()) {
+            List<Review> review = reviewRepository.findByProviderId(providerId);
+            return this.reviewMapper.toListDto(review);
+        }else {
+            throw new ResourceNotFoundException("Provider not found");
+        }
+
     }
 }

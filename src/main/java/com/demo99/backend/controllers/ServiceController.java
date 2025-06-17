@@ -12,16 +12,16 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/services")
+@RequestMapping("/api/v1/services")
 public class ServiceController {
     private final ServiceService serviceService;
 
-    @GetMapping("/service")
+    @GetMapping
     public List<ServiceResDTO> getAllServices(){
         return serviceService.getAllServices();
     }
 
-    @GetMapping(path = "/service/{id}")
+    @GetMapping(path = "/{id}")
     public ServiceResDTO getServiceById(@PathVariable Long id){
         return this.serviceService.getServiceById(id);
     }

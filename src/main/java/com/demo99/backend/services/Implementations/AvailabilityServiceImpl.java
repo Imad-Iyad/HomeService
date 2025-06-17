@@ -1,5 +1,6 @@
 package com.demo99.backend.services.Implementations;
 
+import com.demo99.backend.exceptions.ResourceNotFoundException;
 import com.demo99.backend.model.entities.Availability;
 import com.demo99.backend.model.entities.User;
 import com.demo99.backend.repositories.AvailabilityRepository;
@@ -22,7 +23,7 @@ public class AvailabilityServiceImpl {
         if (potUser.isPresent()){
             return availabilityRepository.findByProviderId(providerId);
         }else {
-            return null;
+            throw new ResourceNotFoundException("Provider not found");
         }
     }
 
@@ -39,13 +40,15 @@ public class AvailabilityServiceImpl {
             availabilityToUpdate.setEndTime(availability.getEndTime());
             return availabilityRepository.save(availabilityToUpdate);
         }
-        return null;
+        throw new ResourceNotFoundException("Availability not found");
     }
 
     public void deleteAvailability(Long id){
         Optional<Availability> availabilityOptional = availabilityRepository.findById(id);
         if (availabilityOptional.isPresent()){
             availabilityRepository.deleteById(id);
+        }else {
+            throw new ResourceNotFoundException("Availability not found");
         }
     }
 }
