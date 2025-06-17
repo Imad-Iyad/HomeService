@@ -8,6 +8,7 @@ import com.demo99.backend.repositories.ServiceRepository;
 import com.demo99.backend.services.ServiceService;
 import lombok.RequiredArgsConstructor;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +19,15 @@ public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
     private final ServiceMapper serviceMapper;
 
-    public List<Service> getAllServices(){
-        return serviceRepository.findAll();
+    @Override
+    public List<ServiceResDTO> getAllServices(){
+        return serviceMapper.toListDTO(serviceRepository.findAll());
     }
 
     @Override
-    public Service getServiceById(Long id) {
+    public ServiceResDTO getServiceById(Long id) {
         Optional<Service> service = serviceRepository.findById(id);
-        return service.orElse(null);
+        return service.map(this.serviceMapper::toDTO).orElse(null);
     }
 
     @Override

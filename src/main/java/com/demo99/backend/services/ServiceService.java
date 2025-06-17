@@ -7,8 +7,8 @@ import com.demo99.backend.model.entities.Service;
 import java.util.List;
 
 public interface ServiceService {
-    List<Service> getAllServices();
-    Service getServiceById(Long id);
+    List<ServiceResDTO> getAllServices();
+    ServiceResDTO getServiceById(Long id);
     ServiceResDTO createService(ServiceReqDTO service);
     Service updateService(Long id, ServiceReqDTO service);
     String deleteService(Long id);
