@@ -1,12 +1,10 @@
 package com.demo99.backend.controllers;
 
+import com.demo99.backend.model.dto.ServiceReqDTO;
 import com.demo99.backend.model.dto.ServiceResDTO;
 import com.demo99.backend.services.ServiceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +22,20 @@ public class ServiceController {
     @GetMapping(path = "/{id}")
     public ServiceResDTO getServiceById(@PathVariable Long id){
         return this.serviceService.getServiceById(id);
+    }
+
+    @PostMapping
+    public ServiceResDTO createService(@RequestBody ServiceReqDTO service) {
+        return this.serviceService.createService(service);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ServiceResDTO updateService(@PathVariable Long id, @RequestBody ServiceReqDTO service) {
+        return this.serviceService.updateService(id, service);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public String deleteService(@PathVariable Long id){
+        return this.serviceService.deleteService(id);
     }
 }

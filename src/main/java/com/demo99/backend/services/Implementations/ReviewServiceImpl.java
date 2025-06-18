@@ -8,6 +8,7 @@ import com.demo99.backend.model.entities.User;
 import com.demo99.backend.model.mapper.Impl.ReviewMapper;
 import com.demo99.backend.repositories.ReviewRepository;
 import com.demo99.backend.repositories.UserRepository;
+import com.demo99.backend.services.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,18 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewServiceImpl {
+public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
     private final UserRepository userRepository;
 
+    @Override
     public ReviewResDTO addReview(ReviewReqDTO reviewReqDTO){
         Review review = this.reviewMapper.toEntity(reviewReqDTO);
         return this.reviewMapper.toDto(this.reviewRepository.save(review));
     }
 
+    @Override
     public List<ReviewResDTO> getReviewsByProvider(Long providerId){
         Optional<User> potUser = this.userRepository.findById(providerId);
         if (potUser.isPresent()) {
