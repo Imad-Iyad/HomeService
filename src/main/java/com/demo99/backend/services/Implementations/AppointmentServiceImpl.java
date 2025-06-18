@@ -30,20 +30,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsByCustomer(Long customerId) {
+    public List<AppointmentResDTO> getAppointmentsByCustomer(Long customerId) {
         Optional<User> entity = this.userRepository.findById(customerId);
         if (entity.isPresent()) {
-            return this.appointmentRepository.findByCustomerId(customerId);
+            return this.appointmentMapper.toListDTO(this.appointmentRepository.findByCustomerId(customerId));
         }else{
             throw new ResourceNotFoundException("Customer not found");
         }
     }
 
     @Override
-    public List<Appointment> getAppointmentsByProvider(Long providerId) {
+    public List<AppointmentResDTO> getAppointmentsByProvider(Long providerId) {
         Optional<User> entity = this.userRepository.findById(providerId);
         if (entity.isPresent()) {
-            return this.appointmentRepository.findByProviderId(providerId);
+            return this.appointmentMapper.toListDTO(this.appointmentRepository.findByProviderId(providerId));
         }else{
             throw new ResourceNotFoundException("Provider not found");
         }
