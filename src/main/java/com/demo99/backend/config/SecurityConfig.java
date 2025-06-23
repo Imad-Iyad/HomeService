@@ -28,15 +28,43 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // مسارات مفتوحة للجميع (تسجيل، تسجيل دخول، Swagger)
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
-                                "/webjars/**",
-                                "/test"
+                                "/webjars/**"
                         ).permitAll()
+
+                        // CUSTOMER فقط
+                        .requestMatchers(
+                                "/api/v1/appointments",               // POST لإنشاء موعد
+                                "/api/v1/appointments/**",            // DELETE لإلغاء موعد، GET لمواعيده
+                                "/api/v1/reviews",                    // POST تقييم
+                                "/api/v1/reviews/**"                  // DELETE تقييمه
+                        ).hasAuthority("CUSTOMER")
+
+                        // PROVIDER فقط
+                        .requestMatchers(
+                                "/api/v1/Availabilities/**",          // CRUD على الأوقات المتاحة
+                                "/api/v1/appointments/**/status"      // تغيير حالة الموعد
+                        ).hasAuthority("PROVIDER")
+
+                        // ADMIN فقط
+                        .requestMatchers(
+                                "/api/v1/users/**",                   // إدارة المستخدمين
+                                "/api/v1/services",                   // إضافة خدمة
+                                "/api/v1/services/**"                 // تعديل/حذف خدمة
+                        ).hasAuthority("ADMIN")
+
+                        // مشتركة بين كل المسجلين (مثلاً GET للخدمات أو التقييمات)
+                        .requestMatchers(
+                                "/api/v1/services/**",
+                                "/api/v1/reviews/**"
+                        ).authenticated()
+
+                        // أي شيء آخر يتطلب تسجيل دخول
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
