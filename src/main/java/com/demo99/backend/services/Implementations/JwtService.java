@@ -14,7 +14,6 @@ public class JwtService {
 
     private static final String SECRET_KEY = "your_super_long_secret_key_that_is_at_least_32_chars!";
 
-
     public String generateToken(User user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
@@ -27,7 +26,7 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY.getBytes())
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes())) // ✅ مهم جدًا
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -39,5 +38,3 @@ public class JwtService {
         return username.equals(userDetails.getUsername());
     }
 }
-
-
