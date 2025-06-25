@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,8 +27,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+
                         // مسارات مفتوحة للجميع (تسجيل، تسجيل دخول، Swagger)
                         .requestMatchers(
                                 "/api/auth/**",
@@ -39,32 +41,34 @@ public class SecurityConfig {
 
                         // CUSTOMER فقط
                         .requestMatchers(
-                                "/api/v1/appointments",               // POST لإنشاء موعد
-                                "/api/v1/appointments/**",            // DELETE لإلغاء موعد، GET لمواعيده
-                                "/api/v1/reviews",                    // POST تقييم
-                                "/api/v1/reviews/**"                  // DELETE تقييمه
+                                "/api/v1/appointments",                // POST
+                                "/api/v1/appointments/*",              // GET / DELETE
+                                "/api/v1/reviews",                     // POST
+                                "/api/v1/reviews/*"                    // DELETE
                         ).hasAuthority("CUSTOMER")
 
                         // PROVIDER فقط
                         .requestMatchers(
-                                "/api/v1/Availabilities/**",          // CRUD على الأوقات المتاحة
-                                "/api/v1/appointments/**/status"      // تغيير حالة الموعد
+                                "/api/v1/Availabilities/*",            // كل العمليات على الأوقات المتاحة
+                                "/api/v1/appointments/*/status"        // تعديل حالة الموعد
                         ).hasAuthority("PROVIDER")
 
                         // ADMIN فقط
                         .requestMatchers(
-                                "/api/v1/users/**",                   // إدارة المستخدمين
-                                "/api/v1/services",                   // إضافة خدمة
-                                "/api/v1/services/**"                 // تعديل/حذف خدمة
+                                "/api/v1/users/*",                     // إدارة مستخدمين
+                                                    // إضافة خدمة
+                                "/api/v1/services/*"                   // تعديل/حذف خدمة
                         ).hasAuthority("ADMIN")
 
-                        // مشتركة بين كل المسجلين (مثلاً GET للخدمات أو التقييمات)
+                        // مشترك بين كل المسجلين (GET على الخدمات والتقييمات)
                         .requestMatchers(
-                                "/api/v1/services/**",
-                                "/api/v1/reviews/**"
+                                "/api/v1/services",                    // عرض كل الخدمات
+                                "/api/v1/services/*",                  // خدمة واحدة
+                                "/api/v1/reviews",                     // عرض كل التقييمات
+                                "/api/v1/reviews/*"                    // تقييم معين
                         ).authenticated()
 
-                        // أي شيء آخر يتطلب تسجيل دخول
+                        // أي مسار آخر يتطلب تسجيل دخول
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -72,6 +76,7 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .build();
     }
+
 
 
     @Bean
