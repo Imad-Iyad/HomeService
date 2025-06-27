@@ -14,27 +14,27 @@ import java.util.List;
 public class ServiceController {
     private final ServiceService serviceService;
 
-    @GetMapping
+    @GetMapping(path = "/get-all")
     public List<ServiceResDTO> getAllServices(){
         return serviceService.getAllServices();
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/get/{id}")
     public ServiceResDTO getServiceById(@PathVariable Long id){
         return this.serviceService.getServiceById(id);
     }
 
-    @PostMapping
+    @PostMapping(path = "/creat")
     public ServiceResDTO createService(@RequestBody ServiceReqDTO service) {
         return this.serviceService.createService(service);
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/update/{id}")
     public ServiceResDTO updateService(@PathVariable Long id, @RequestBody ServiceReqDTO service) {
         return this.serviceService.updateService(id, service);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public String deleteService(@PathVariable Long id){
         return this.serviceService.deleteService(id);
     }

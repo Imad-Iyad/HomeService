@@ -10,16 +10,16 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/api/v1/Reviews")
+@RequestMapping(path = "/api/v1/reviews")
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @PostMapping
+    @PostMapping(path = "/add")
     public ReviewResDTO addReview(@RequestBody ReviewReqDTO reviewReqDTO){
         return this.reviewService.addReview(reviewReqDTO);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("get/{id}")
     public List<ReviewResDTO> getReviewsByProvider(@PathVariable Long id){
         return this.reviewService.getReviewsByProvider(id);
     }

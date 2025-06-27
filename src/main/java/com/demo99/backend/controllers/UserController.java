@@ -15,22 +15,22 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/get/{id}")
     public Optional<User> getUserById (@PathVariable Long id){
         return this.userService.getUserById(id);
     }
 
-    @GetMapping
+    @GetMapping(path = "/get-all-providers")
     public List<User> getAllProviders(){
         return this.userService.getAllProviders();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public String updateUser(@PathVariable Long id, @RequestBody UserReqDTO userReqDTO){
         return this.userService.UpdateUser(id, userReqDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id){
         return this.userService.deleteUser(id);
     }

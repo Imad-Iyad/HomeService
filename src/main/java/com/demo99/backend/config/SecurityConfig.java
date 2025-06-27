@@ -41,32 +41,39 @@ public class SecurityConfig {
 
                         // CUSTOMER فقط
                         .requestMatchers(
-                                "/api/v1/appointments",                // POST
-                                "/api/v1/appointments/*",              // GET / DELETE
-                                "/api/v1/reviews",                     // POST
-                                "/api/v1/reviews/*"                    // DELETE
+                                "/api/v1/appointments/book",
+                                "/api/v1/appointments/by-customer/*",
+                                "/api/v1/appointments/delete/*",
+                                "/api/v1/availabilities/get-by-provider/",
+                                "/api/v1/reviews/add",
+                                "/api/v1/reviews/get/*",
+                                "/api/v1/services/get-all",
+                                "/api/v1/services/get/*"
                         ).hasAuthority("CUSTOMER")
 
                         // PROVIDER فقط
                         .requestMatchers(
-                                "/api/v1/Availabilities/*",            // كل العمليات على الأوقات المتاحة
-                                "/api/v1/appointments/*/status"        // تعديل حالة الموعد
+                                "/api/v1/appointments/by-provider/*",
+                                "/api/v1/appointments/update-status/*",
+                                "/api/v1/availabilities/creat",
+                                "/api/v1/availabilities/update/*",
+                                "/api/v1/availabilities/delete/*",
+                                "/api/v1/availabilities/get-by-provider/*",
+                                "/api/v1/reviews/*",
+                                "/api/v1/services/get-all",
+                                "/api/v1/services/get/*"
                         ).hasAuthority("PROVIDER")
 
                         // ADMIN فقط
                         .requestMatchers(
-                                "/api/v1/users/*",                     // إدارة مستخدمين
-                                                    // إضافة خدمة
-                                "/api/v1/services/*"                   // تعديل/حذف خدمة
+                                "/api/v1/reviews/*",
+                                "/api/v1/services/creat",
+                                "/api/v1/services/get-all",
+                                "/api/v1/services/get/*",
+                                "/api/v1/services/update/*",
+                                "/api/v1/services/delete/*",
+                                "/api/v1/users/**"
                         ).hasAuthority("ADMIN")
-
-                        // مشترك بين كل المسجلين (GET على الخدمات والتقييمات)
-                        .requestMatchers(
-                                "/api/v1/services",                    // عرض كل الخدمات
-                                "/api/v1/services/*",                  // خدمة واحدة
-                                "/api/v1/reviews",                     // عرض كل التقييمات
-                                "/api/v1/reviews/*"                    // تقييم معين
-                        ).authenticated()
 
                         // أي مسار آخر يتطلب تسجيل دخول
                         .anyRequest().authenticated()

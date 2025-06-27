@@ -11,11 +11,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/api/v1/Appointments")
+@RequestMapping(path = "/api/v1/appointments")
 public class AppointmentController {
     private final AppointmentService appointmentService;
 
-    @PostMapping
+    @PostMapping(path = "book")
     public AppointmentResDTO bookAppointment(@RequestBody AppointmentReqDTO appointmentReqDTO){
         return this.appointmentService.bookAppointment(appointmentReqDTO);
     }
@@ -30,9 +30,12 @@ public class AppointmentController {
         return this.appointmentService.getAppointmentsByProvider(id);
     }
 
-    @PutMapping(path = "")
-    public AppointmentResDTO updateAppointment(@RequestParam Long id, @RequestParam AppointmentStatus appointmentStatus){
+    @PutMapping(path = "update-status/{id}")
+    public AppointmentResDTO updateAppointment(@PathVariable Long id, @RequestBody AppointmentStatus appointmentStatus){
         return this.appointmentService.updateStatus(id,appointmentStatus);
     }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public void deleteAppointment(@PathVariable Long id){}
 
 }
