@@ -25,8 +25,8 @@ spring:
   application:
     name: 'HomeService'
 
-server :
-  port: 8090
+server:
+  port: ${PORT:8080}
 
 springdoc:
   api-docs:
