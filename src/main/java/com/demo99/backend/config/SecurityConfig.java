@@ -107,9 +107,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://homeservice-production-5b76.up.railway.app")); // يمكنك تغيير "*" إلى رابط الـ frontend أو Swagger
+        configuration.setAllowedOriginPatterns(List.of("*")); // يمكنك تغيير "*" إلى رابط الـ frontend أو Swagger
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
