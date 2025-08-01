@@ -36,6 +36,7 @@ public class JwtService {
                 .getSubject();
     }
 
+    // طابق الtoken مع بيانات معلومات الuser (من خلال استخراج الusername من الtoken ثم مقارنتو مع الusername الي في معلومات الuser)
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
         return username.equals(userDetails.getUsername());

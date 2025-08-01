@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
+                                                             //1234567
+        // authHeader (the Bearer word + the token) Example => Bearer ndfgDjRjFdjsFjfHiojGoiHjds54648.kdHsfljFfskjfDsk
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
@@ -51,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7);
+        jwt = authHeader.substring(7); // the token after the space
         userEmail = jwtService.extractUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

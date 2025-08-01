@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${MYSQL_URL}
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    url: jdbc:mysql://localhost:3306/home_service_db?creatDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -22,11 +22,12 @@ spring:
     user:
       name: admin
       password: 1234
+
   application:
     name: 'HomeService'
 
 server:
-  port: ${PORT:8080}
+  port: 8090
 
 springdoc:
   api-docs:
