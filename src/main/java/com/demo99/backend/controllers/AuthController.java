@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// ✅ الخطوة 8: Controller للتعامل مع المستخدم
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
