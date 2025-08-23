@@ -64,3 +64,41 @@ Build HomeService from the source and install dependencies:
 1. Clone the repository:
    ```bash
    git clone https://github.com/Imad-Iyad/HomeService
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd HomeService
+   ```
+
+3. Install the dependencies:
+
+   **Using docker:**
+   ```bash
+   docker build -t Imad-Iyad/HomeService .
+   ```
+
+   **Using maven:**
+   ```bash
+   mvn install
+   ```
+
+---
+
+### Usage
+Run the project with:
+
+**Using docker:**
+```bash
+docker run -it {image_name}
+```
+
+**Using maven:**
+```bash
+mvn exec:java
+```
+
+---
+
+### Testing
+Work in progress 🚧 (خلي المقدمة في نص الصفحة)
